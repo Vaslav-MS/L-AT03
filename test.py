@@ -19,6 +19,13 @@ def test_get_github_user(mocker):
         'name': 'Ivan'
     }
 
+def test_get_github_user_with_error(mocker):
+    mock_get = mocker.patch('main.requests.get')
+    mock_get.return_value.status_code = 500
+
+    user_data = get_github_user('nizavr')
+
+    assert user_data == None
 
 def test_get_weather(mocker):
     mock_get = mocker.patch('main.requests.get')
