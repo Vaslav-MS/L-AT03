@@ -1,6 +1,24 @@
 import pytest
-from main import get_weather
+from main import get_github_user, get_weather
 from config import apikey
+
+def test_get_github_user(mocker):
+    mock_get = mocker.patch('main.requests.get')
+    mock_get.return_value.status_code = 200
+    mock_get.return_value.json.return_value = {
+        'login': 'nizavr',
+        'id': 345178,
+        'name': 'Ivan'
+    }
+
+    user_data = get_github_user('nizavr')
+
+    assert user_data == {
+        'login': 'nizavr',
+        'id': 345178,
+        'name': 'Ivan'
+    }
+
 
 def test_get_weather(mocker):
     mock_get = mocker.patch('main.requests.get')
