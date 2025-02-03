@@ -19,3 +19,13 @@ def test_get_weather(mocker):
         'main': {'temp': 273.15}
     }
 
+def test_get_weather_with_error(mocker):
+    mock_get = mocker.patch('main.requests.get')
+    mock_get.return_value.status_code = 404
+
+    city = 'London'
+
+    weather_data = get_weather(apikey, city)
+
+    assert weather_data == None
+
